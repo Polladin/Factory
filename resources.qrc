@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/pic/factory">
+        <file>wall.png</file>
+        <file>floor.png</file>
+        <file>road.jpg</file>
+    </qresource>
+</RCC>
