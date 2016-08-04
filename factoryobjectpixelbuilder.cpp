@@ -3,6 +3,7 @@
 #include "factoryobjectfloorpixel.h"
 #include "factoryobjectwallpixel.h"
 #include "factoryobjectroadpixel.h"
+#include "factoryobjectgrasspixel.h"
 
 QGraphicsItem *FactoryObjectPixelBuilder::build(FactoryObject *obj
                                                 , unsigned X, unsigned Y
@@ -18,6 +19,9 @@ QGraphicsItem *FactoryObjectPixelBuilder::build(FactoryObject *obj
 
     case FactoryTypes::ROAD:
         return new FactoryObjectRoadPixel(X, Y, height);
+
+    case FactoryTypes::GRASS:
+        return new FactoryObjectGrassPixel(X, Y, height);
 
     default:
         return new QGraphicsRectItem(X, Y, height, width);

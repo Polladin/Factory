@@ -37,7 +37,8 @@ SOURCES += main.cpp\
     factoryobjectpixelbuilder.cpp \
     factoryobjectpixel.cpp \
     testmap1.cpp \
-    factoryobjectgrass.cpp
+    factoryobjectgrass.cpp \
+    factoryobjectgrasspixel.cpp
 
 HEADERS  += factorygamemainwindow.h \
     factorymap.h \
@@ -63,7 +64,8 @@ HEADERS  += factorygamemainwindow.h \
     factoryobjectpixelbuilder.h \
     factoryobjectpixel.h \
     testmap1.h \
-    factoryobjectgrass.h
+    factoryobjectgrass.h \
+    factoryobjectgrasspixel.h
 
 FORMS    += factorygamemainwindow.ui
 

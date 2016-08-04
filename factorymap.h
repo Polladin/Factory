@@ -21,7 +21,7 @@ public:
     std::size_t get_width()  { return map.size() > 0 ? map[0].size() : 0; }
 
     FactoryObject* get_object(std::size_t height, std::size_t width)
-        { return map[height][width].get();}
+        { return map[width][height].get();}
 
     void set_object(std::unique_ptr<FactoryObject> && obj);
 

@@ -25,10 +25,12 @@ void FactoryObjectDisplay::display()
 {
     if (pFactoryMap == nullptr) return;
 
+    qDebug() << "Display Map with height : " << pFactoryMap->get_height() << " width : " << pFactoryMap->get_width();
     for(std::size_t height = 0; height < pFactoryMap->get_height(); ++height)
     {
         for(std::size_t width = 0; width < pFactoryMap->get_width(); ++width)
         {
+            qDebug() << "height : " << height << " width : " << width;
             QGraphicsItem *item = get_object_pixel(pFactoryMap->get_object(width, height));
 
             // add the Item to Scene

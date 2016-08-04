@@ -4,5 +4,9 @@
         <file>floor.png</file>
         <file>road.jpg</file>
         <file>grass.png</file>
+        <file>floor2.png</file>
+        <file>floor3.png</file>
+        <file>floor4.png</file>
+        <file>floor5.jpg</file>
     </qresource>
 </RCC>

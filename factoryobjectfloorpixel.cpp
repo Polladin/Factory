@@ -2,7 +2,7 @@
 
 FactoryObjectFloorPixel::FactoryObjectFloorPixel(unsigned X, unsigned Y
                                                  , unsigned height)
-    : FactoryObjectPixel(QPixmap(":/pic/factory/floor.png")
+    : FactoryObjectPixel(QPixmap(":/pic/factory/floor5.jpg")
                          , QPointF(X, Y)
                          , height )
 {

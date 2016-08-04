@@ -5,12 +5,12 @@
 
 FactoryMap::FactoryMap(std::size_t mapWidth, std::size_t mapHeight)
 {
-    map.resize(mapHeight);
-    for (std::size_t height = 0; height < mapHeight; ++height)
+    map.resize(mapWidth);
+    for (std::size_t height = 0; height < mapWidth; ++height)
     {
-        map[height].resize(mapWidth);
+        map[height].resize(mapHeight);
 
-        for (std::size_t width = 0; width < mapWidth; ++width)
+        for (std::size_t width = 0; width < mapHeight; ++width)
         {
             map[height][width] = std::unique_ptr<FactoryObject>(
                         FactoryObjectBuilder::build(FactoryTypes::FLOOR, height, width));

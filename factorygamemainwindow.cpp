@@ -44,25 +44,25 @@ FactoryGameMainWindow::FactoryGameMainWindow(QWidget *parent) :
     view->show();
 
     // create FactoryMap
-    factory = new FactoryMap(mapPattern1.size(), mapPattern1[0].length());
+    factory = new FactoryMap(mapPattern1[0].length(), mapPattern1.size());
     TestMap1::show(factory);
 
     // create Factory Display and init scene by default objects
-    factoryDisplay = new FactoryObjectDisplay(factory, scene, 10, 10, 200);
+    factoryDisplay = new FactoryObjectDisplay(factory, scene, 20, 20, 100);
 
     // add observer (before any changes with factory map)
     factory->add_observer(factoryDisplay);
 
-    // set objects to the Scene
-    for( std::size_t i = 0; i < factory->get_height()-1; ++i)
-        factory->set_object(std::unique_ptr<FactoryObject>(FactoryObjectBuilder::build(FactoryTypes::WALL, i, i)));
+//    // set objects to the Scene
+//    for( std::size_t i = 0; i < factory->get_height()-1; ++i)
+//        factory->set_object(std::unique_ptr<FactoryObject>(FactoryObjectBuilder::build(FactoryTypes::WALL, i, i)));
 
-    std::vector<std::pair<std::size_t, std::size_t>> road_coord = { {4,0}, {4,1}, {4,2}, {4,3}, {4,4} };
-    for (const auto& coord : road_coord)
-    {
-        factory->set_object(std::unique_ptr<FactoryObject>(
-                               FactoryObjectBuilder::build(FactoryTypes::ROAD,coord.first, coord.second)));
-    }
+//    std::vector<std::pair<std::size_t, std::size_t>> road_coord = { {4,0}, {4,1}, {4,2}, {4,3}, {4,4} };
+//    for (const auto& coord : road_coord)
+//    {
+//        factory->set_object(std::unique_ptr<FactoryObject>(
+//                               FactoryObjectBuilder::build(FactoryTypes::ROAD,coord.first, coord.second)));
+//    }
 
     menu.add_iron_buyer();
 
