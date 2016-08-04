@@ -2,10 +2,13 @@
 
 FactoryObjectFloorPixel::FactoryObjectFloorPixel(unsigned X, unsigned Y
                                                  , unsigned height)
+    : FactoryObjectPixel(QPixmap(":/pic/factory/floor.png")
+                         , QPointF(X, Y)
+                         , height )
 {
-    setPos(X, Y);
-    setPixmap(QPixmap(":/pic/factory/floor.png"));
+//    setPos(X, Y);
+//    setPixmap(QPixmap(":/pic/factory/floor.png"));
 
-    setScale((double)height / boundingRect().width());
+//    setScale((double)height / boundingRect().width());
 }
 

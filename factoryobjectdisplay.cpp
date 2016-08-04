@@ -1,56 +1,77 @@
 #include "factoryobjectdisplay.h"
 
+#include "factoryobjectpixelbuilder.h"
 #include "factoryobjectfloorpixel.h"
 #include "factoryobjectroadpixel.h"
 #include "factoryobjectwallpixel.h"
 
-FactoryObjectDisplay::FactoryObjectDisplay(FactoryMap *initFactoryMap,
-                                           unsigned initDispHeight = 10, unsigned initDispWidth = 10)
-    : pFactoryMap( initFactoryMap )
-    , dispHeight ( initDispHeight )
-    , dispWidth  ( initDispWidth  )
-{
+#include <QDebug>
 
+FactoryObjectDisplay::FactoryObjectDisplay(FactoryMap *initFactoryMap
+                                           , QGraphicsScene *initScene
+                                           , unsigned initDispHeight
+                                           , unsigned initDispWidth
+                                           , unsigned initMenuXoffset   )
+    : pFactoryMap {initFactoryMap}
+    , displayedScene {initScene}
+    , dispHeight {initDispHeight}
+    , dispWidth  {initDispWidth}
+{
+    menuXoffset = initMenuXoffset;
+    display();
 }
 
-void FactoryObjectDisplay::display(QGraphicsScene *pScene)
+void FactoryObjectDisplay::display()
 {
+    if (pFactoryMap == nullptr) return;
+
     for(std::size_t height = 0; height < pFactoryMap->get_height(); ++height)
     {
         for(std::size_t width = 0; width < pFactoryMap->get_width(); ++width)
         {
-            // create QGraphicsItem
-//            QGraphicsItem *item = new FactoryObjectFloorPixel(Xoffset+ height * dispHeight, Yoffset + width * dispWidth
-//                                                              , dispHeight);
-//            auto item = new QGraphicsRectItem(Xoffset + height * dispHeight, Yoffset + width * dispWidth
-//                                              , dispHeight, dispWidth);
-//            item->setBrush(QBrush(get_color(pFactoryMap->get_object(height, width))));
+            QGraphicsItem *item = get_object_pixel(pFactoryMap->get_object(width, height));
 
-            QGraphicsItem *item = get_object_pixel(pFactoryMap->get_object(width, height), height, width);
             // add the Item to Scene
-            pScene->addItem(item);
+            displayedScene->addItem(item);
         }
     }
 }
 
-QGraphicsItem* FactoryObjectDisplay::get_object_pixel(FactoryObject *obj
-                                                      , unsigned height, unsigned width)
+void FactoryObjectDisplay::update()
 {
-    switch(obj->get_type())
+    // add new Items to the Scene
+    while (has_add_objects())
     {
-    case FactoryTypes::FLOOR:
-        return new FactoryObjectFloorPixel(Xoffset+ height * dispHeight, Yoffset + width * dispWidth, dispHeight);
+        QGraphicsItem *item = get_object_pixel (pop_add_object());
 
-    case FactoryTypes::WALL:
-        return new FactoryObjectWallPixel(Xoffset+ height * dispHeight, Yoffset + width * dispWidth, dispHeight);
-
-    case FactoryTypes::ROAD:
-        return new FactoryObjectRoadPixel(Xoffset+ height * dispHeight, Yoffset + width * dispWidth, dispHeight);
-
-    default:
-        return new QGraphicsRectItem(Xoffset+ height * dispHeight, Yoffset + width * dispWidth
-                                     , dispHeight, dispWidth);
-
+        displayedScene->addItem(item);
     }
+
+    while (has_del_objects())
+    {
+        std::shared_ptr<FactoryObject> objToDel = pop_del_object();
+
+        // if a object was displayed on the Scene
+        if (mappedObjects.find(objToDel.get()) != mappedObjects.end())
+        {
+            displayedScene->removeItem(mappedObjects.at(objToDel.get()));
+            mappedObjects.erase(mappedObjects.find(objToDel.get()));
+        }
+    }
+}
+
+QGraphicsItem* FactoryObjectDisplay::get_object_pixel(FactoryObject *obj)
+{
+    ObjectPos pos = obj->get_pos();
+
+    unsigned X = menuXoffset + pos.X * dispHeight; //
+    unsigned Y = Yoffset + pos.Y * dispWidth;
+
+    QGraphicsItem *item = FactoryObjectPixelBuilder::build(
+                                obj, X, Y, dispHeight, dispWidth);
+
+    mappedObjects.insert(std::make_pair(obj, item));
+
+    return item;
 }
 

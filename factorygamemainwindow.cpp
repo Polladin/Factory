@@ -7,6 +7,7 @@
 
 #include "factorymap.h"
 #include "factoryobjectdisplay.h"
+#include "factoryobjectbuilder.h"
 #include "factoryobjectwall.h"
 #include "factoryobjectroad.h"
 
@@ -16,8 +17,10 @@
 #include "builditem.h"
 #include "menudisplay.h"
 
-FactoryMap factory(5,5);
-FactoryObjectDisplay factoryDisplay(&factory, 50, 50);
+#include "testmap1.h"
+
+FactoryMap *factory; //(5,5);
+FactoryObjectDisplay *factoryDisplay; //(&factory, 50, 50);
 
 BuildMenu menu;
 MenuDisplay menuDisplay(menu);
@@ -28,23 +31,11 @@ FactoryGameMainWindow::FactoryGameMainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-//    // set background for menu frame
-//    QPalette menuPal(ui->menuFrame->palette());
-
-//    menuPal.setColor(QPalette::Background, QColor(255,165,0));
-//    ui->menuFrame->setAutoFillBackground(true);
-//    ui->menuFrame->setPalette(menuPal);
-
-    ui->textLog->appendPlainText(QString("Factory Height : ") + QString::number(factory.get_height()));
-    ui->textLog->appendPlainText(QString("Factory Width : ") + QString::number(factory.get_width()));
-
-
     // create Scene and View
     QGraphicsScene * scene = new QGraphicsScene();
     scene->setSceneRect(0,0,ui->factoryFrame->rect().width(), ui->factoryFrame->rect().height());
 
     QGraphicsView * view;
-//    view = new QGraphicsView(scene, ui->factoryFrame); //, ui->frame);
     view = new FactoryView(scene, ui->factoryFrame); //, ui->frame);
     view->setFixedSize(ui->factoryFrame->rect().width(), ui->factoryFrame->rect().height());
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -52,23 +43,35 @@ FactoryGameMainWindow::FactoryGameMainWindow(QWidget *parent) :
 
     view->show();
 
+    // create FactoryMap
+    factory = new FactoryMap(mapPattern1.size(), mapPattern1[0].length());
+    TestMap1::show(factory);
+
+    // create Factory Display and init scene by default objects
+    factoryDisplay = new FactoryObjectDisplay(factory, scene, 10, 10, 200);
+
+    // add observer (before any changes with factory map)
+    factory->add_observer(factoryDisplay);
+
     // set objects to the Scene
-    for( std::size_t i = 0; i < factory.get_height()-1; ++i)
-        factory.set_object(i, i, std::unique_ptr<FactoryObject>(new FactoryObjectWall()));
+    for( std::size_t i = 0; i < factory->get_height()-1; ++i)
+        factory->set_object(std::unique_ptr<FactoryObject>(FactoryObjectBuilder::build(FactoryTypes::WALL, i, i)));
 
-    factory.set_object(0,4, std::unique_ptr<FactoryObject>(new FactoryObjectRoad()));
-    factory.set_object(1,4, std::unique_ptr<FactoryObject>(new FactoryObjectRoad()));
-    factory.set_object(2,4, std::unique_ptr<FactoryObject>(new FactoryObjectRoad()));
-    factory.set_object(3,4, std::unique_ptr<FactoryObject>(new FactoryObjectRoad()));
-    factory.set_object(4,4, std::unique_ptr<FactoryObject>(new FactoryObjectRoad()));
-
-    factoryDisplay.set_Xoffset(200);
-    factoryDisplay.display(scene);
+    std::vector<std::pair<std::size_t, std::size_t>> road_coord = { {4,0}, {4,1}, {4,2}, {4,3}, {4,4} };
+    for (const auto& coord : road_coord)
+    {
+        factory->set_object(std::unique_ptr<FactoryObject>(
+                               FactoryObjectBuilder::build(FactoryTypes::ROAD,coord.first, coord.second)));
+    }
 
     menu.add_iron_buyer();
 
     menuDisplay.set_border(200, ui->factoryFrame->rect().height());
     menuDisplay.display(scene);
+
+    // add log
+    ui->textLog->appendPlainText(QString("Factory Height : ") + QString::number(factory->get_height()));
+    ui->textLog->appendPlainText(QString("Factory Width : ") + QString::number(factory->get_width()));
 }
 
 FactoryGameMainWindow::~FactoryGameMainWindow()

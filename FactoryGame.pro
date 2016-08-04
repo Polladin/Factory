@@ -26,13 +26,18 @@ SOURCES += main.cpp\
     menuitem.cpp \
     menuironbuyer.cpp \
     menudisplay.cpp \
-    factoryobjectpicture.cpp \
     factoryobjectfloorpixel.cpp \
     factoryobjectwallpixel.cpp \
     factoryobjectroadpixel.cpp \
     factoryobjectroad.cpp \
     menuironbuyerpixel.cpp \
-    factoryview.cpp
+    factoryview.cpp \
+    factorymapobserver.cpp \
+    factoryobjectbuilder.cpp \
+    factoryobjectpixelbuilder.cpp \
+    factoryobjectpixel.cpp \
+    testmap1.cpp \
+    factoryobjectgrass.cpp
 
 HEADERS  += factorygamemainwindow.h \
     factorymap.h \
@@ -47,13 +52,18 @@ HEADERS  += factorygamemainwindow.h \
     menuitem.h \
     menuironbuyer.h \
     menudisplay.h \
-    factoryobjectpicture.h \
     factoryobjectfloorpixel.h \
     factoryobjectwallpixel.h \
     factoryobjectroadpixel.h \
     factoryobjectroad.h \
     menuironbuyerpixel.h \
-    factoryview.h
+    factoryview.h \
+    factorymapobserver.h \
+    factoryobjectbuilder.h \
+    factoryobjectpixelbuilder.h \
+    factoryobjectpixel.h \
+    testmap1.h \
+    factoryobjectgrass.h
 
 FORMS    += factorygamemainwindow.ui
 

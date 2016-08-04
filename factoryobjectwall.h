@@ -6,6 +6,6 @@
 class FactoryObjectWall : public FactoryObject
 {
 public:
-    FactoryObjectWall();
+    FactoryObjectWall(std::size_t X, std::size_t Y);
 };
 

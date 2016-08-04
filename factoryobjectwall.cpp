@@ -1,7 +1,7 @@
 #include "factoryobjectwall.h"
 
-FactoryObjectWall::FactoryObjectWall()
-    : FactoryObject(FactoryTypes::WALL)
+FactoryObjectWall::FactoryObjectWall(std::size_t X, std::size_t Y)
+    : FactoryObject(FactoryTypes::WALL, X, Y)
 {
 
 }

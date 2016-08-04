@@ -6,6 +6,6 @@
 class FactoryObjectFloor : public FactoryObject
 {
 public:
-    FactoryObjectFloor();
+    FactoryObjectFloor(std::size_t X, std::size_t Y);
 };
 

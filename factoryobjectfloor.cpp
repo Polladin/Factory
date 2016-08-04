@@ -1,7 +1,7 @@
 #include "factoryobjectfloor.h"
 
-FactoryObjectFloor::FactoryObjectFloor()
-    : FactoryObject(FactoryTypes::FLOOR)
+FactoryObjectFloor::FactoryObjectFloor(std::size_t X, std::size_t Y)
+    : FactoryObject(FactoryTypes::FLOOR, X, Y)
 {
 
 }

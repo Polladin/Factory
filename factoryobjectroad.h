@@ -5,6 +5,6 @@
 class FactoryObjectRoad : public FactoryObject
 {
 public:
-    FactoryObjectRoad();
+    FactoryObjectRoad(std::size_t X, std::size_t Y);
 };
 

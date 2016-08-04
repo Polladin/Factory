@@ -27,10 +27,8 @@ void FactoryView::mousePressEvent(QMouseEvent *eventPress)
 
 void FactoryView::mouseMoveEvent(QMouseEvent *event)
 {
-    qDebug() << "Mouse is moved : " << event->pos();
     if (nullptr != showObjToBuild)
     {
-        qDebug() << "Move Object to build";
         showObjToBuild->setPos(event->pos().x()-10, event->pos().y()-10);
     }
 }
